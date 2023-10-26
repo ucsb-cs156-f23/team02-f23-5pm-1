@@ -1,4 +1,14 @@
-# STARTER-team02
+# team02-f23-5mp-1
+```
+| Table                       | Team Member  | Github Id         |
+|-----------------------------|--------------|-------------------|
+| `UCSBDiningCommonsMenuItem` | Angel        | angelg261         |
+| `UCSBOrganization`          | Jonathan     | pingyujc          |
+| `RecommendationRequest`     | Yash         | Yashasvi-Vangala  |
+| `MenuItemReview`            | Luke         | lukewli           |
+| `HelpRequest`               | Vinson       | vinsonlin         |
+| `Articles`                  | Harold       | haroldmo          |
+```
 
 Instructions: <https://ucsb-cs156.github.io/f23/lab/team02.html>
 
