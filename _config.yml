@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f23/team02-f23-5pm-1
 owner: ucsb-cs156-f23
 repo_name: team02-f23-5pm-1
-pull_requests: [{"author":{"id":"MDQ6VXNlcjcyODkzMDg0","is_bot":false,"login":"haroldmo","name":""},"headRefName":"Harold-Articles","number":43,"title":"Completed the Entity and Repositories files for Articles. This creates the database.","url":"https://github.com/ucsb-cs156-f23/team02-f23-5pm-1/pull/43"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjg2OTM1MzM0","is_bot":false,"login":"lukewli","name":""},"headRefName":"lli-MenuItemReview-create-db","number":44,"title":"lli - Adding Entity and Repository code for MenuItemReview Database","url":"https://github.com/ucsb-cs156-f23/team02-f23-5pm-1/pull/44"},{"author":{"id":"MDQ6VXNlcjcyODkzMDg0","is_bot":false,"login":"haroldmo","name":""},"headRefName":"Harold-Articles","number":43,"title":"Completed the Entity and Repositories files for Articles. This creates the database.","url":"https://github.com/ucsb-cs156-f23/team02-f23-5pm-1/pull/43"}]
