@@ -154,4 +154,77 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase{
                 assertEquals(expectedJson, responseString);
         }
 
+        // Tests for PUT /api/ucsbdiningcommons?...
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_commons() throws Exception {
+                // arrange
+
+                UCSBOrganization SkydivingClub = UCSBOrganization.builder()
+                                .orgCode("SKY")
+                                .orgTranslationShort("SKYDIVING-CLUB")
+                                .orgTranslation("SKYDIVING-CLUB-AT-UCSB")
+                                .inactive(true)
+                                .build();
+                UCSBOrganization SkydivingClubEdited = UCSBOrganization.builder()
+                                .orgCode("SKY")
+                                .orgTranslationShort("SKYDIVING CLUB")
+                                .orgTranslation("SKYDIVING CLUB AT UCSB")
+                                .inactive(true)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(SkydivingClubEdited);
+
+                when(ucsbOrganizationRepository.findById(eq("SKY"))).thenReturn(Optional.of(SkydivingClub));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/UCSBOrganization?orgCode=SKY")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("SKY");
+                verify(ucsbOrganizationRepository, times(1)).save(SkydivingClubEdited); // should be saved with updated info
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_commons_that_does_not_exist() throws Exception {
+                // arrange
+
+                UCSBOrganization editedOrganization = UCSBOrganization.builder()
+                                .orgCode("abc")
+                                .orgTranslationShort("ABC-CLUB")
+                                .orgTranslation("ABC-CLUB-UCSB")
+                                .inactive(true)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(editedOrganization);
+
+                when(ucsbOrganizationRepository.findById(eq("abc"))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/UCSBOrganization?orgCode=abc")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("abc");
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("<UCSBDiningCommons with id abc not found", json.get("message"));
+
+        }
+
 }
