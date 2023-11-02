@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 
-public class UCSBOrganizationController {
+public class UCSBOrganizationController extends ApiController{
     @Autowired
     UCSBOrganizationRepository ucsbOrganizationRepository;
 
@@ -58,9 +58,19 @@ public class UCSBOrganizationController {
         organizations.setOrgTranslationShort(orgTranslationShort);
         organizations.setOrgTranslation(orgTranslation);
         organizations.setInactive(inactive);
-
         UCSBOrganization savedOrganizations = ucsbOrganizationRepository.save(organizations);
-
         return savedOrganizations;
+    
+    }
+    @Operation(summary= "Get a single organization")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBOrganization getById(
+            @Parameter(name="orgCode") @RequestParam String orgCode) {
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+        return organization;
+
     }
 }
