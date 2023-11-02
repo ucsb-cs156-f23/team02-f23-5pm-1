@@ -1,10 +1,10 @@
 
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
+
 import edu.ucsb.cs156.example.entities.UCSBOrganization;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
-import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsRepository;
+
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,7 +82,7 @@ public class UCSBOrganizationController extends ApiController{
             @RequestBody @Valid UCSBOrganization incoming) {
 
         UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommons.class, orgCode));
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
 
 
         organization.setOrgCode(incoming.getOrgCode());

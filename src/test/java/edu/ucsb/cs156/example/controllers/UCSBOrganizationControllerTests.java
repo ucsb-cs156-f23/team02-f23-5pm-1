@@ -154,7 +154,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase{
                 assertEquals(expectedJson, responseString);
         }
 
-        // Tests for PUT /api/ucsbdiningcommons?...
+        // Tests for PUT 
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
@@ -221,9 +221,11 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase{
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
+
                 verify(ucsbOrganizationRepository, times(1)).findById("abc");
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("<UCSBDiningCommons with id abc not found", json.get("message"));
+                assertEquals("UCSBOrganization with id abc not found", json.get("message"));
+
 
         }
 
