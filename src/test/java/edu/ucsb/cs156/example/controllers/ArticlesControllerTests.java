@@ -205,4 +205,86 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Articles with id 123 not found", json.get("message"));
         }
+
+        // Tests for PUT /api/articles?id=... 
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_articles() throws Exception {
+                // arrange
+
+                LocalDateTime dateAdded1 = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime dateAdded2 = LocalDateTime.parse("2022-02-03T00:00:00");
+
+                Articles articlesOrig = Articles.builder()
+                                .title("firstArticles")
+                                .url("https://www.cnn.com/articles")
+                                .explanation("here's an article")
+                                .email("larry@gmail.com")
+                                .dateAdded(dateAdded1)
+                                .build();
+
+                Articles articlesEdited = Articles.builder()
+                                .title("lasttArticles")
+                                .url("https://www.nbcnews.com/")
+                                .explanation("here's another article")
+                                .email("gary@gmail.com")
+                                .dateAdded(dateAdded2)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(articlesEdited);
+
+                when(articlesRepository.findById(eq(123L))).thenReturn(Optional.of(articlesOrig));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/articles?id=123")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(articlesRepository, times(1)).findById(123L);
+                verify(articlesRepository, times(1)).save(articlesEdited); // should be saved with correct user
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+        
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_articles_that_does_not_exist() throws Exception {
+                // arrange
+
+                LocalDateTime dateAdded1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                Articles articlesEditedDate = Articles.builder()
+                                .title("firstArticles")
+                                .url("https://www.cnn.com/articles")
+                                .explanation("here's an article")
+                                .email("larry@gmail.com")
+                                .dateAdded(dateAdded1)
+                                .build();
+                
+                String requestBody = mapper.writeValueAsString(articlesEditedDate);
+
+                when(articlesRepository.findById(eq(123L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/articles?id=123")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(articlesRepository, times(1)).findById(123L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("Articles with id 123 not found", json.get("message"));
+
+        }
 }
