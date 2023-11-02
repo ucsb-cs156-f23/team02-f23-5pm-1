@@ -285,6 +285,5 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 verify(articlesRepository, times(1)).findById(123L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Articles with id 123 not found", json.get("message"));
-
         }
 }
