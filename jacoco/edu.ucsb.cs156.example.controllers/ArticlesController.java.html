@@ -88,5 +88,26 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L89">        return article;</span>
     }
+
+    @Operation(summary= &quot;Update a single article&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public Articles updateArticle(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid Articles incoming) {
+
+<span class="fc" id="L99">        Articles article = articlesRepository.findById(id)</span>
+<span class="fc" id="L100">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
+        
+<span class="fc" id="L102">        article.setTitle(incoming.getTitle());</span>
+<span class="fc" id="L103">        article.setUrl(incoming.getUrl());</span>
+<span class="fc" id="L104">        article.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L105">        article.setEmail(incoming.getEmail());</span>
+<span class="fc" id="L106">        article.setDateAdded(incoming.getDateAdded());</span>
+
+<span class="fc" id="L108">        articlesRepository.save(article);</span>
+
+<span class="fc" id="L110">        return article;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
