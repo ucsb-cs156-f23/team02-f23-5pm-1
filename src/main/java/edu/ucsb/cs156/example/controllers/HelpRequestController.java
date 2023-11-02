@@ -36,6 +36,9 @@ public class HelpRequestController extends ApiController {
     @Autowired
     HelpRequestRepository helpRequestRepository;
 
+
+
+    // GET ALL 
     @Operation(summary= "List all help requests")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
@@ -44,6 +47,10 @@ public class HelpRequestController extends ApiController {
         return requests;
     }
 
+
+
+
+    // POST help request
     @Operation(summary= "Create a new help request")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
@@ -72,5 +79,19 @@ public class HelpRequestController extends ApiController {
         HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);
 
         return savedHelpRequest;
+    }
+
+
+
+    // GET single help request
+    @Operation(summary= "Get a single help request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBDate getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        HelpRequest helpRequest = helpRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+        return helpRequest;
     }
 }
