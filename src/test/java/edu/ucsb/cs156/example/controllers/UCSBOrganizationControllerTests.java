@@ -179,7 +179,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase{
                 when(ucsbOrganizationRepository.findById(eq("ZPR"))).thenReturn(Optional.of(organization));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/ucsbdiningcommons?code=carrillo"))
+                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?orgCode=ZPR"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert

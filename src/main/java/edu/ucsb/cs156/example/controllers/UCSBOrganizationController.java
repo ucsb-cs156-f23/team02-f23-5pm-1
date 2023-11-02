@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 
-public class UCSBOrganizationController {
+public class UCSBOrganizationController extends ApiController{
     @Autowired
     UCSBOrganizationRepository ucsbOrganizationRepository;
 
