@@ -1,10 +1,10 @@
 
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
+
 import edu.ucsb.cs156.example.entities.UCSBOrganization;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
-import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsRepository;
+
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ import javax.validation.Valid;
 
 public class UCSBOrganizationController extends ApiController{
     @Autowired
-    UCSBOrganizationRepository ucsbOrganizationRepository;
+    UCSBOrganizationRepository ucsbOrganizationRepository ;
 
     @Operation(summary= "List all UCSB Organizations")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -72,5 +72,26 @@ public class UCSBOrganizationController extends ApiController{
 
         return organization;
 
+    }
+
+    @Operation(summary= "Update a single organization")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBOrganization updateCommons(
+            @Parameter(name="orgCode") @RequestParam String orgCode,
+            @RequestBody @Valid UCSBOrganization incoming) {
+
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+
+        organization.setOrgCode(incoming.getOrgCode());
+        organization.setOrgTranslationShort(incoming.getOrgTranslationShort());
+        organization.setOrgTranslation(incoming.getOrgTranslation());
+        organization.setInactive(incoming.getInactive());
+
+        ucsbOrganizationRepository.save(organization);
+
+        return organization;
     }
 }
