@@ -202,10 +202,10 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase{
                                 .inactive(true)
                                 .build();
                 UCSBOrganization SkydivingClubEdited = UCSBOrganization.builder()
-                                .orgCode("SKY")
+                                .orgCode("sky-sb")
                                 .orgTranslationShort("SKYDIVING CLUB")
                                 .orgTranslation("SKYDIVING CLUB AT UCSB")
-                                .inactive(true)
+                                .inactive(false)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(SkydivingClubEdited);
