@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @RestController
 <span class="fc" id="L31">@Slf4j</span>
 
-<span class="fc" id="L33">public class UCSBOrganizationController {</span>
+<span class="fc" id="L33">public class UCSBOrganizationController extends ApiController{</span>
     @Autowired
     UCSBOrganizationRepository ucsbOrganizationRepository;
 
@@ -58,10 +58,20 @@ import javax.validation.Valid;
 <span class="fc" id="L58">        organizations.setOrgTranslationShort(orgTranslationShort);</span>
 <span class="fc" id="L59">        organizations.setOrgTranslation(orgTranslation);</span>
 <span class="fc" id="L60">        organizations.setInactive(inactive);</span>
+<span class="fc" id="L61">        UCSBOrganization savedOrganizations = ucsbOrganizationRepository.save(organizations);</span>
+<span class="fc" id="L62">        return savedOrganizations;</span>
+    
+    }
+    @Operation(summary= &quot;Get a single organization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public UCSBOrganization getById(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode) {
+<span class="fc" id="L70">        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L71">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
 
-<span class="fc" id="L62">        UCSBOrganization savedOrganizations = ucsbOrganizationRepository.save(organizations);</span>
+<span class="fc" id="L73">        return organization;</span>
 
-<span class="fc" id="L64">        return savedOrganizations;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
