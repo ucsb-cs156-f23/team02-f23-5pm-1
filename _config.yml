@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f23/team02-f23-5pm-1
 owner: ucsb-cs156-f23
 repo_name: team02-f23-5pm-1
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjg3MDUzNTg3","is_bot":false,"login":"vinsonlinn","name":""},"headRefName":"Vinson-HelpRequest-GET","number":65,"title":"Vinson Help Request GET (show) controller and tests","url":"https://github.com/ucsb-cs156-f23/team02-f23-5pm-1/pull/65"}]
