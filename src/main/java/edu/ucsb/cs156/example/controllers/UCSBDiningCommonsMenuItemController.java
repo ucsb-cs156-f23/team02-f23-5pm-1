@@ -29,6 +29,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 
+
 public class UCSBDiningCommonsMenuItemController extends ApiController{
 
     @Autowired
@@ -65,4 +66,5 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
 
         return savedUcsbDiningCommonsMenuItem;
     }
+    
 }

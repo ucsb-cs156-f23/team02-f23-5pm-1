@@ -54,7 +54,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 mockMvc.perform(get("/api/ucsbdiningcommonsmenuitems/all"))
                                 .andExpect(status().is(200)); // logged
         }
-//STARTED --> DONE
+
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_user_can_get_all_ucsbdiningcommonsmenuitem() throws Exception {
@@ -130,3 +130,4 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 assertEquals(expectedJson, responseString);
         }
 }
+
