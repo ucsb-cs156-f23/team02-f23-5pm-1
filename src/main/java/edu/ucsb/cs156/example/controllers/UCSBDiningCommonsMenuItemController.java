@@ -66,6 +66,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
 
         return savedUcsbDiningCommonsMenuItem;
     }
+
     @Operation(summary= "Get a single ucsb dining commons menu item")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
@@ -76,4 +77,25 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
 
         return ucsbDiningCommonsMenuItem;
     }
+
+    @Operation(summary= "Update a single ucsb dining commons menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    
+    public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
+        
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        ucsbDiningCommonsMenuItem.setName(incoming.getName());
+        ucsbDiningCommonsMenuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());
+        ucsbDiningCommonsMenuItem.setStation(incoming.getStation());
+
+        ucsbDiningCommonsRepository.save(ucsbDiningCommonsMenuItem);
+
+        return ucsbDiningCommonsMenuItem;
+    }
+
 }
