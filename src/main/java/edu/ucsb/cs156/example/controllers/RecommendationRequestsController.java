@@ -36,7 +36,7 @@ public class RecommendationRequestsController extends ApiController {
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
 
-    @Operation(summary= "List all ucsb dates")
+    @Operation(summary= "List all recommendation requests")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<RecommendationRequest> allRecommendationRequests() {
@@ -44,7 +44,7 @@ public class RecommendationRequestsController extends ApiController {
         return dates;
     }
 
-    @Operation(summary= "Create a new date")
+    @Operation(summary= "Create a new recommendation request")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public RecommendationRequest postRecommendationRequest(
