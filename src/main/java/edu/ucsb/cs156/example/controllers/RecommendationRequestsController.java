@@ -40,8 +40,8 @@ public class RecommendationRequestsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<RecommendationRequest> allRecommendationRequests() {
-        Iterable<RecommendationRequest> dates = recommendationRequestRepository.findAll();
-        return dates;
+        Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
+        return requests;
     }
 
     @Operation(summary= "Create a new recommendation request")
@@ -51,8 +51,10 @@ public class RecommendationRequestsController extends ApiController {
             @Parameter(name="requesterEmail") @RequestParam String requesterEmail,
             @Parameter(name="professorEmail") @RequestParam String professorEmail,
             @Parameter(name="explanation") @RequestParam String explanation,
-            @Parameter(name="dateNeeded", description="in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601") @RequestParam("localDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateNeeded,
-            @Parameter(name="dateRequested", description="in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601") @RequestParam("localDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateRequested,
+            @Parameter(name="dateNeeded", description="in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601") 
+            @RequestParam("dateNeeded") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateNeeded,
+            @Parameter(name="dateRequested", description="in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601") 
+            @RequestParam("dateRequested") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateRequested,
             @Parameter(name="done") @RequestParam boolean done)
             throws JsonProcessingException {
 
@@ -60,6 +62,9 @@ public class RecommendationRequestsController extends ApiController {
         // See: https://www.baeldung.com/spring-date-parameters
 
         // log.info("localDateTime={}", localDateTime);
+        
+        log.info("dateRequested={}", dateRequested);
+        log.info("dateNeeded={}", dateNeeded);
 
         RecommendationRequest recommendationRequest = new RecommendationRequest();
         recommendationRequest.setRequesterEmail(requesterEmail);
@@ -74,16 +79,16 @@ public class RecommendationRequestsController extends ApiController {
         return savedrRecommendationRequest;
     }
 
-    // @Operation(summary= "Get a single date")
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    // @GetMapping("")
-    // public RecommendationRequest getById(
-    //         @Parameter(name="id") @RequestParam Long id) {
-    //     RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+    @Operation(summary= "Get a single date")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
 
-    //     return recommendationRequest;
-    // }
+        return recommendationRequest;
+    }
 
     // @Operation(summary= "Delete a RecommendationRequest")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
