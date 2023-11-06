@@ -66,5 +66,48 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
 
         return savedUcsbDiningCommonsMenuItem;
     }
-    
+
+    @Operation(summary= "Get a single ucsb dining commons menu item")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBDiningCommonsMenuItem getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        return ucsbDiningCommonsMenuItem;
+    }
+
+    @Operation(summary= "Update a single ucsb dining commons menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+
+    public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
+        
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        ucsbDiningCommonsMenuItem.setName(incoming.getName());
+        ucsbDiningCommonsMenuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());
+        ucsbDiningCommonsMenuItem.setStation(incoming.getStation());
+
+        ucsbDiningCommonsRepository.save(ucsbDiningCommonsMenuItem);
+
+        return ucsbDiningCommonsMenuItem;
+    }
+
+    @Operation(summary= "Delete a ucsb dining commons menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        ucsbDiningCommonsRepository.delete(ucsbDiningCommonsMenuItem);
+        return genericMessage("UCSBDiningCommonsMenuItem with id %s deleted".formatted(id));
+    }
+
 }
