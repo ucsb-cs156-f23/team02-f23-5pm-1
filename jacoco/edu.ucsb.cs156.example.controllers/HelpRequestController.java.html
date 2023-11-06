@@ -36,14 +36,21 @@ import java.time.LocalDateTime;
     @Autowired
     HelpRequestRepository helpRequestRepository;
 
+
+
+    // GET ALL 
     @Operation(summary= &quot;List all help requests&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;HelpRequest&gt; allHelpRequests() {
-<span class="fc" id="L43">        Iterable&lt;HelpRequest&gt; requests = helpRequestRepository.findAll();</span>
-<span class="fc" id="L44">        return requests;</span>
+<span class="fc" id="L46">        Iterable&lt;HelpRequest&gt; requests = helpRequestRepository.findAll();</span>
+<span class="fc" id="L47">        return requests;</span>
     }
 
+
+
+
+    // POST help request
     @Operation(summary= &quot;Create a new help request&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
@@ -59,19 +66,33 @@ import java.time.LocalDateTime;
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L62">        log.info(&quot;requestTime={}&quot;, requestTime);</span>
+<span class="fc" id="L69">        log.info(&quot;requestTime={}&quot;, requestTime);</span>
 
-<span class="fc" id="L64">        HelpRequest helpRequest = new HelpRequest();</span>
-<span class="fc" id="L65">        helpRequest.setRequesterEmail(requesterEmail);</span>
-<span class="fc" id="L66">        helpRequest.setTeamId(teamId);</span>
-<span class="fc" id="L67">        helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);</span>
-<span class="fc" id="L68">        helpRequest.setExplanation(explanation);</span>
-<span class="fc" id="L69">        helpRequest.setSolved(solved);</span>
-<span class="fc" id="L70">        helpRequest.setRequestTime(requestTime);</span>
+<span class="fc" id="L71">        HelpRequest helpRequest = new HelpRequest();</span>
+<span class="fc" id="L72">        helpRequest.setRequesterEmail(requesterEmail);</span>
+<span class="fc" id="L73">        helpRequest.setTeamId(teamId);</span>
+<span class="fc" id="L74">        helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);</span>
+<span class="fc" id="L75">        helpRequest.setExplanation(explanation);</span>
+<span class="fc" id="L76">        helpRequest.setSolved(solved);</span>
+<span class="fc" id="L77">        helpRequest.setRequestTime(requestTime);</span>
         
-<span class="fc" id="L72">        HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);</span>
+<span class="fc" id="L79">        HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);</span>
 
-<span class="fc" id="L74">        return savedHelpRequest;</span>
+<span class="fc" id="L81">        return savedHelpRequest;</span>
+    }
+
+
+
+    // GET single help request
+    @Operation(summary= &quot;Get a single help request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public HelpRequest getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L92">        HelpRequest helpRequest = helpRequestRepository.findById(id)</span>
+<span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
+
+<span class="fc" id="L95">        return helpRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
