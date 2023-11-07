@@ -100,7 +100,7 @@ public class UCSBDiningCommonsController extends ApiController {
         UCSBDiningCommons commons = ucsbDiningCommonsRepository.findById(code)
                 .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommons.class, code));
 
-
+        commons.setCode(incoming.getCode());
         commons.setName(incoming.getName());  
         commons.setHasSackMeal(incoming.getHasSackMeal());
         commons.setHasTakeOutMeal(incoming.getHasTakeOutMeal());

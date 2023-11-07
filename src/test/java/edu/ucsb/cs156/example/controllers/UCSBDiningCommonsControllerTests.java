@@ -274,7 +274,7 @@ public class UCSBDiningCommonsControllerTests extends ControllerTestCase {
 
                 UCSBDiningCommons carrilloEdited = UCSBDiningCommons.builder()
                                 .name("Carrillo Dining Hall")
-                                .code("carrillo")
+                                .code("Mario")
                                 .hasSackMeal(true)
                                 .hasTakeOutMeal(true)
                                 .hasDiningCam(false)
