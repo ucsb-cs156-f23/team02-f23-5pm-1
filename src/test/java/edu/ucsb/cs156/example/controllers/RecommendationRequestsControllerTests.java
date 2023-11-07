@@ -149,7 +149,6 @@ public class RecommendationRequestsControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
-
         // Tests for GET /api/recommendationrequests?id=...
 
         @Test
