@@ -100,7 +100,7 @@ import javax.validation.Valid;
 <span class="fc" id="L100">        UCSBDiningCommons commons = ucsbDiningCommonsRepository.findById(code)</span>
 <span class="fc" id="L101">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBDiningCommons.class, code));</span>
 
-
+<span class="fc" id="L103">        commons.setCode(incoming.getCode());</span>
 <span class="fc" id="L104">        commons.setName(incoming.getName());  </span>
 <span class="fc" id="L105">        commons.setHasSackMeal(incoming.getHasSackMeal());</span>
 <span class="fc" id="L106">        commons.setHasTakeOutMeal(incoming.getHasTakeOutMeal());</span>

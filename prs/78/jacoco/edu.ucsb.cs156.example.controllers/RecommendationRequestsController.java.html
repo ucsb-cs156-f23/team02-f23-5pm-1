@@ -90,38 +90,38 @@ import java.time.LocalDateTime;
 <span class="fc" id="L90">        return recommendationRequest;</span>
     }
 
-    // @Operation(summary= &quot;Delete a RecommendationRequest&quot;)
-    // @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-    // @DeleteMapping(&quot;&quot;)
-    // public Object deleteRecommendationRequest(
-    //         @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
-    //     RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
-    //             .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));
+    @Operation(summary= &quot;Delete a RecommendationRequest&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L98">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L99">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
 
-    //     recommendationRequestRepository.delete(recommendationRequest);
-    //     return genericMessage(&quot;RecommendationRequest with id %s deleted&quot;.formatted(id));
-    // }
+<span class="fc" id="L101">        recommendationRequestRepository.delete(recommendationRequest);</span>
+<span class="fc" id="L102">        return genericMessage(&quot;RecommendationRequest with id %s deleted&quot;.formatted(id));</span>
+    }
 
-    // @Operation(summary= &quot;Update a single date&quot;)
-    // @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-    // @PutMapping(&quot;&quot;)
-    // public RecommendationRequest updateRecommendationRequest(
-    //         @Parameter(name=&quot;id&quot;) @RequestParam Long id,
-    //         @RequestBody @Valid RecommendationRequest incoming) {
+    @Operation(summary= &quot;Update a single date&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public RecommendationRequest updateRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid RecommendationRequest incoming) {
 
-    //     RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
-    //             .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));
+<span class="fc" id="L112">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L113">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
 
-    //     recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());
-    //     recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());
-    //     recommendationRequest.setExplanation(incoming.getExplanation());
-    //     recommendationRequest.setDateNeeded(incoming.getDateNeeded());
-    //     recommendationRequest.setDateRequested(incoming.getDateRequested());
-    //     recommendationRequest.setDone(incoming.getDone());
+<span class="fc" id="L115">        recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L116">        recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());</span>
+<span class="fc" id="L117">        recommendationRequest.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L118">        recommendationRequest.setDateNeeded(incoming.getDateNeeded());</span>
+<span class="fc" id="L119">        recommendationRequest.setDateRequested(incoming.getDateRequested());</span>
+<span class="fc" id="L120">        recommendationRequest.setDone(incoming.getDone());</span>
 
-    //     recommendationRequestRepository.save(recommendationRequest);
+<span class="fc" id="L122">        recommendationRequestRepository.save(recommendationRequest);</span>
                 
-    //     return recommendationRequest;
-    // }
+<span class="fc" id="L124">        return recommendationRequest;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
