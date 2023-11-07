@@ -40,8 +40,8 @@ public class RecommendationRequestsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<RecommendationRequest> allRecommendationRequests() {
-        Iterable<RecommendationRequest> dates = recommendationRequestRepository.findAll();
-        return dates;
+        Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
+        return requests;
     }
 
     @Operation(summary= "Create a new recommendation request")
@@ -62,6 +62,9 @@ public class RecommendationRequestsController extends ApiController {
         // See: https://www.baeldung.com/spring-date-parameters
 
         // log.info("localDateTime={}", localDateTime);
+        
+        log.info("dateRequested={}", dateRequested);
+        log.info("dateNeeded={}", dateNeeded);
 
         RecommendationRequest recommendationRequest = new RecommendationRequest();
         recommendationRequest.setRequesterEmail(requesterEmail);
@@ -74,5 +77,50 @@ public class RecommendationRequestsController extends ApiController {
         RecommendationRequest savedrRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);
 
         return savedrRecommendationRequest;
+    }
+
+    @Operation(summary= "Get a single date")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+
+        return recommendationRequest;
+    }
+
+    @Operation(summary= "Delete a RecommendationRequest")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteRecommendationRequest(
+            @Parameter(name="id") @RequestParam Long id) {
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+
+        recommendationRequestRepository.delete(recommendationRequest);
+        return genericMessage("RecommendationRequest with id %s deleted".formatted(id));
+    }
+
+    @Operation(summary= "Update a single date")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public RecommendationRequest updateRecommendationRequest(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid RecommendationRequest incoming) {
+
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+
+        recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());
+        recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());
+        recommendationRequest.setExplanation(incoming.getExplanation());
+        recommendationRequest.setDateNeeded(incoming.getDateNeeded());
+        recommendationRequest.setDateRequested(incoming.getDateRequested());
+        recommendationRequest.setDone(incoming.getDone());
+
+        recommendationRequestRepository.save(recommendationRequest);
+                
+        return recommendationRequest;
     }
 }
